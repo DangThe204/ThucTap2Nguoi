@@ -1,0 +1,136 @@
+/* ========== GLOBAL WRAPPER ========== */
+.exam-wrapper {
+  padding: 40px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eaf1ff, #f7faff);
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+/* Title */
+.exam-wrapper h2 {
+  text-align: center;
+  font-size: 34px;
+  font-weight: 800;
+  color: #21335b;
+  margin-bottom: 25px;
+  letter-spacing: 0.5px;
+}
+
+/* ========== CONTROL BUTTON ========== */
+.exam-controls {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 22px;
+  justify-content: center;
+}
+
+.exam-controls button {
+  background: linear-gradient(135deg, #2e3f8f, #16205c);
+  color: #fff;
+  border: none;
+  padding: 11px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: .2s;
+  font-weight: 600;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.exam-controls button:hover {
+  background: linear-gradient(135deg, #3d51b1, #1c2d73);
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* ========== TABLE ========== */
+.exam-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+/* Header */
+.exam-table th {
+  background: linear-gradient(90deg, #2a3a88, #1b2662);
+  color: #fff;
+  padding: 14px;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: .5px;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.exam-table th::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, #ffb300, #ffe38a);
+}
+
+/* Session column */
+.session-col {
+  background: #f6f8ff;
+  font-weight: 700;
+  text-align: center;
+  width: 90px;
+  border-right: 2px solid #e4e8ff;
+  color: #1e2b58;
+}
+
+/* Cell */
+.cell {
+  min-height: 140px;
+  padding: 10px;
+  border: 1px solid #e6e9f5;
+  transition: background .2s;
+}
+
+.cell:hover {
+  background: #f4f6ff;
+}
+
+/* ========== EXAM CARD ========== */
+.exam-card {
+  background: linear-gradient(135deg, #fff9c9, #fff4a7);
+  border: 1px solid #f2d36a;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  transition: .2s;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.exam-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  background: linear-gradient(135deg, #fff3a0, #ffe772);
+}
+
+/* Title in card */
+.exam-card b {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Last row border fix */
+.exam-table td:last-child,
+.exam-table th:last-child {
+  border-right: none;
+}
