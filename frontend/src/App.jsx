@@ -11,8 +11,10 @@ import NewsPage from './pages/NewsPage';
 import LoginPage from "./pages/LoginPage";
 import ThoiKhoaBieu from './pages/ThoiKhoaBieu';
 import ExamSchedule from './pages/ExamSchedule/ExamSchedule';
+import NewsDetailPage from './pages/NewsDetailPage';
+// --- Import Các Trang Admin ---
 import AdminCourses from './admin/AdminCourse';
-
+import AdminNews from './admin/AdminNews';
 
 
 function App() {
@@ -24,10 +26,14 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/NewsPage" element={<NewsPage />} />
-           <Route path="/thoi-khoa-bieu" element={<ThoiKhoaBieu />} />
-
-            <Route path="/admin/quan-ly-lich-hoc" element={<AdminCourses />} />
+            <Route path="/NewsPage/:id" element={<NewsDetailPage />} />
+            <Route path="/thoi-khoa-bieu" element={<ThoiKhoaBieu />} />
             <Route path="/lich-thi" element={<ExamSchedule />} />
+            
+            {/* === CÁC ROUTE ADMIN === */}
+            <Route path="/admin/quan-ly-lich-hoc" element={<AdminCourses />} />
+            <Route path="/admin/quan-ly-tin-tuc" element={<AdminNews />} />
+           
           </Route>
           <Route path="/LoginPage" element={<LoginPage />} />
           <Route path="*" element={<h1>404 - Trang không tồn tại</h1>} />

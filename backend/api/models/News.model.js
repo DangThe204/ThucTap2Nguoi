@@ -1,39 +1,40 @@
+// File: News.model.js
 import mongoose from 'mongoose';
 
-const NewsSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: [true, 'Vui lòng nhập tiêu đề'],
-        trim: true,
+const NewsSchema = new mongoose.Schema(
+  {
+    imageUrl: { 
+      type: String,
+      default: '', // Có thể đặt mặc định là một URL ảnh placeholder
     },
-    content: {
-        type: String,
-        required: [true, 'Vui lòng nhập nội dung'],
+    tieuDe: {
+      type: String,
+      required: true,
+      trim: true,
     },
+    noiDung: {
+      type: String,
+      required: true,
+    },
+    tacGia: {
+      type: String,
+      default: 'Admin',
+    },
+    // Thêm trường slug để dùng cho URL thân thiện (ví dụ: /news/tieu-de-tin-tuc-abc)
     slug: {
-        type: String,
-        unique: true,
-        trim: true,
+      type: String,
+      unique: true,
     },
-    author: {
-        type: String,
-        default: 'Admin',
-    }
-}, { timestamps: true });
+  },
+  { timestamps: true } // Tự động thêm createdAt và updatedAt
+);
 
-// Tự động tạo slug từ title
-NewsSchema.pre('save', function (next) {
-    if (this.isModified('title') || this.isNew) {
-        this.slug = this.title
-            .toLowerCase()
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            .replace(/đ/g, "d")
-            .replace(/[^a-z0-9\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-');
+// Middleware để tạo slug trước khi lưu
+NewsSchema.pre('save', function(next) {
+    if (this.isModified('tieuDe') || this.isNew) {
+        this.slug = this.tieuDe.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
     }
     next();
 });
 
-const News = mongoose.model('News', NewsSchema);
-export default News;
+export default mongoose.model('News', NewsSchema);

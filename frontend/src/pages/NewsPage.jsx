@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // [SỬA] THÊM useEffect
+import axios from 'axios';
 import { Link } from 'react-router-dom';
-// --- Tái sử dụng Icon từ HomePage.jsx ---
+
 // Icon Arrow Right (Sử dụng cho nút "Đọc thêm")
 const IconArrowRight = () => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 ml-1 transition-transform duration-300 group-hover:translate-x-1">
@@ -8,89 +9,78 @@ const IconArrowRight = () => (
     </svg>
 );
 
-// Dữ liệu tin tức giả định
-const newsData = [
-    { 
-        id: 1, 
-        category: 'HỌC THUẬT', 
-        title: 'Cuộc thi "AI Challenge 2025" chính thức khởi động', 
-        date: '01/11/2025', 
-        summary: 'Cơ hội để sinh viên thể hiện tài năng, sáng tạo với trí tuệ nhân tạo...', 
-        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop' // AI/Coding
-    },
-    { 
-        id: 2, 
-        category: 'DOANH NGHIỆP', 
-        title: 'Hội thảo hợp tác cùng FPT Software về Cloud Computing', 
-        date: '25/10/2025', 
-        summary: 'Mở ra nhiều cơ hội thực tập và việc làm cho sinh viên khóa mới...', 
-        image: 'https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=1812&auto=format&fit=crop' // Hội thảo/Hợp tác
-    },
-    { 
-        id: 3, 
-        category: 'HOẠT ĐỘNG', 
-        title: 'Ngày hội việc làm IT "Job Fair 2025" sắp diễn ra', 
-        date: '15/10/2025', 
-        summary: 'Quy tụ hơn 50 doanh nghiệp hàng đầu trong lĩnh vực công nghệ...', 
-        image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop' // <<< ĐÃ ĐỔI (Tuyển dụng/Phỏng vấn)
-    },
-    { 
-        id: 4, 
-        category: 'HỌC THUẬT', 
-        title: 'Giới thiệu chuyên ngành mới: Phát triển Game di động', 
-        date: '05/09/2025', 
-        summary: 'Đào tạo lập trình viên chuyên sâu về Unity và Unreal Engine.', 
-        image: 'https://images.unsplash.com/photo-1627993203994-e8b23f2f5341?q=80&w=2070&auto=format&fit=crop' // Thiết kế 3D/Game
-    },
-    { 
-        id: 5, 
-        category: 'HOẠT ĐỘNG', 
-        title: 'Chung kết cuộc thi sáng tạo lập trình sinh viên', 
-        date: '20/08/2025', 
-        summary: 'Vinh danh các dự án xuất sắc ứng dụng AI và IoT.', 
-        image: 'https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?q=80&w=2070&auto=format&fit=crop' // Nhóm làm việc/Thành tựu
-    },
-    { 
-        id: 6, 
-        category: 'DOANH NGHIỆP', 
-        title: 'Chương trình Mentoring 1:1 cùng VNPT Technology', 
-        date: '01/08/2025', 
-        summary: 'Cơ hội học hỏi trực tiếp từ các chuyên gia hàng đầu về viễn thông.', 
-        image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop' // Người hướng dẫn/Trao đổi
-    },
-];
-
 const categories = ['Tất cả', 'HỌC THUẬT', 'DOANH NGHIỆP', 'HOẠT ĐỘNG'];
 
-
 const NewsPage = () => {
+    // [THÊM] State để lưu dữ liệu từ API
+    const [allNews, setAllNews] = useState([]); 
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+    // State cho việc lọc
     const [activeCategory, setActiveCategory] = useState('Tất cả');
+    
+    // [THÊM] Logic tải dữ liệu từ Backend
+    useEffect(() => {
+        const fetchNews = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                // Giả sử API endpoint để lấy danh sách tin tức là /api/news
+                // Dùng axios đã config (nếu có, nếu không thì dùng axios thường)
+                const res = await axios.get('/api/news'); 
+                setAllNews(res.data);
+            } catch (err) {
+                console.error('Lỗi khi tải tin tức:', err);
+                // Có thể lỗi do server backend chưa chạy (http://localhost:8080)
+                setError('Không thể tải tin tức. Vui lòng kiểm tra Server Backend.'); 
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchNews();
+    }, []); // Chỉ chạy 1 lần khi component được mount
 
-    const filteredNews = newsData.filter(item => 
-        activeCategory === 'Tất cả' || item.category === activeCategory
+    // [CẬP NHẬT] Logic lọc tin tức dựa trên dữ liệu thật (tạm thời không có trường category trong model bạn gửi)
+    // Nếu bạn muốn dùng filter, bạn cần thêm trường 'category' vào News.model.js
+    const filteredNews = allNews.filter(item => 
+        // Vì News.model.js không có trường category, ta tạm thời bỏ qua lọc
+        // Nếu có category, logic sẽ là: activeCategory === 'Tất cả' || item.category === activeCategory
+        true 
     );
-
+    
+    // [CẬP NHẬT] NewsCard sử dụng các trường dữ liệu thật
     const NewsCard = ({ news }) => (
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden group transform hover:shadow-2xl transition-all duration-300 border border-gray-100">
             <div className="overflow-hidden h-56">
-                <img src={news.image}
-                    alt={news.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                {/* [LƯU Ý] Nếu bạn có trường image/imageUrl trong News.model, hãy thay thế: */}
+                {/* <img src={news.imageUrl} alt={news.tieuDe} ... /> */}
+                <div className='w-full h-full object-cover bg-gray-200 flex items-center justify-center text-gray-500'>
+                    [Chưa có ảnh]
+                </div>
             </div>
             <div className="p-6">
                 <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-blue-600 font-semibold uppercase tracking-wide">{news.category}</span>
-                    <span className="text-xs text-gray-500">{news.date}</span>
+                    {/* [SỬA] Dùng news.category nếu có, nếu không dùng CHUNG */}
+                    <span className="text-sm text-blue-600 font-semibold uppercase tracking-wide">{news.category || 'CHUNG'}</span> 
+                    {/* [SỬA] Dùng createdAt từ MongoDB */}
+                    <span className="text-xs text-gray-500">{new Date(news.createdAt).toLocaleDateString('vi-VN')}</span> 
                 </div>
                 
                 <h3 className="text-xl font-bold text-gray-900 mt-2 mb-3 leading-snug hover:text-blue-700 transition-colors">
-                    <a href={`/news/${news.id}`}>{news.title}</a>
+                    {/* [SỬA] Dùng tieuDe và _id/slug */}
+                    {/* Dùng news.slug cho URL thân thiện hoặc news._id */}
+                    <Link to={`/NewsPage/${news.slug || news._id}`}>{news.tieuDe}</Link> 
                 </h3>
-                <p className="text-gray-600 text-sm mb-4">{news.summary}</p>
+                {/* [SỬA] Dùng noiDung (tóm tắt 150 ký tự) */}
+                <p className="text-gray-600 text-sm mb-4">
+                    {news.noiDung.substring(0, 150)}{news.noiDung.length > 150 ? '...' : ''}
+                </p>
                 
-                <a href={`/news/${news.id}`} className="inline-flex items-center text-blue-600 font-semibold group">
+                {/* [SỬA] Dùng _id/slug cho Link */}
+                <Link to={`/NewsPage/${news.slug || news._id}`} className="inline-flex items-center text-blue-600 font-semibold group"> 
                     Đọc thêm <IconArrowRight />
-                </a>
+                </Link>
             </div>
         </div>
     );
@@ -131,13 +121,21 @@ const NewsPage = () => {
 
                 {/* --- DANH SÁCH TIN TỨC --- */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {filteredNews.length > 0 ? (
+                    {loading ? (
+                        <p className="col-span-full text-center text-lg text-blue-500 py-10">
+                            Đang tải tin tức...
+                        </p>
+                    ) : error ? (
+                         <p className="col-span-full text-center text-lg text-red-500 py-10">
+                            {error}
+                        </p>
+                    ) : filteredNews.length > 0 ? (
                         filteredNews.map(news => (
-                            <NewsCard key={news.id} news={news} />
+                            <NewsCard key={news._id} news={news} /> // [SỬA] Dùng news._id
                         ))
                     ) : (
                         <p className="col-span-full text-center text-lg text-gray-500 py-10">
-                            Không tìm thấy tin tức nào trong danh mục này.
+                            Không tìm thấy tin tức nào.
                         </p>
                     )}
                 </div>
