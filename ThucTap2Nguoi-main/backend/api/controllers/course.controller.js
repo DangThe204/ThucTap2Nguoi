@@ -17,7 +17,7 @@ const handleDuplicateKeyError = (err, res) => {
 };
 
 // ===============================
-// 📌 POST /api/courses (Admin)
+// POST /api/courses (Admin)
 // ===============================
 export const createCourse = async (req, res, next) => {
   try {
@@ -33,7 +33,7 @@ export const createCourse = async (req, res, next) => {
 };
 
 // ===============================
-// 📌 PUT /api/courses/:id (Admin)
+// PUT /api/courses/:id (Admin)
 // ===============================
 export const updateCourse = async (req, res, next) => {
   try {
@@ -55,7 +55,7 @@ export const updateCourse = async (req, res, next) => {
 };
 
 // ===============================
-// 📌 DELETE /api/courses/:id
+// DELETE /api/courses/:id
 // ===============================
 export const deleteCourse = async (req, res, next) => {
   try {
@@ -70,7 +70,7 @@ export const deleteCourse = async (req, res, next) => {
 };
 
 // ===============================
-// 📌 GET /api/courses
+// GET /api/courses
 // ===============================
 export const getAllCourses = async (req, res, next) => {
   try {
@@ -82,7 +82,7 @@ export const getAllCourses = async (req, res, next) => {
 };
 
 // ===============================
-// 📌 GET /api/courses/:id
+// GET /api/courses/:id
 // ===============================
 export const getCourseDetails = async (req, res, next) => {
   try {
@@ -97,7 +97,7 @@ export const getCourseDetails = async (req, res, next) => {
 };
 
 // ======================================================
-// ⭐ POST /api/courses/:id/schedule — thêm lịch học (theo TIẾT)
+// POST /api/courses/:id/schedule — thêm lịch học (theo TIẾT)
 // ======================================================
 export const addSchedule = async (req, res, next) => {
   try {
@@ -131,7 +131,7 @@ export const addSchedule = async (req, res, next) => {
     });
 
   } catch (error) {
-    console.error("❌ addSchedule error:", error);
+    console.error(" addSchedule error:", error);
     next(error);
   }
 };

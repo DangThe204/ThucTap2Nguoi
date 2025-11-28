@@ -16,12 +16,12 @@ export const getMyTimetable = async (req, res, next) => {
 
     let courseIds = [];
 
-    // ⭐ ADMIN XEM TẤT CẢ LỊCH
+    // ADMIN XEM TẤT CẢ LỊCH
     if (req.user.role === "admin") {
       const allCourses = await Course.find().select('_id');
       courseIds = allCourses.map(c => c._id);
     } 
-    // ⭐ STUDENT: chỉ xem lịch lớp đã ghi danh
+    // STUDENT: chỉ xem lịch lớp đã ghi danh
     else {
       const enrollments = await Enrollment.find({ userId: req.user.id }).select('courseId');
       courseIds = enrollments.map(e => e.courseId);

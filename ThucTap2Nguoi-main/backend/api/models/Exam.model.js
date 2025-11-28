@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
 const ExamSchema = new mongoose.Schema({
-    courseId: { // Gán lịch thi cho 1 Lớp Học Phần cụ thể
+    courseId: { 
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course', // Tham chiếu đến Model 'Course'
+        ref: 'Course', 
         required: true,
     },
     thoiGianKiemTra: {
@@ -14,7 +14,7 @@ const ExamSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    monHoc: { // Tên môn học (để hiển thị nhanh)
+    monHoc: { 
         type: String,
         required: true,
     },

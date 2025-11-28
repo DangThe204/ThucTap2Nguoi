@@ -5,7 +5,7 @@ import Course from "../models/Course.model.js";
 // ADMIN APIs
 // ============================
 
-// 📌 GET ALL EXAMS (Admin)
+// GET ALL EXAMS (Admin)
 export const getExams = async (req, res) => {
     try {
         const exams = await Exam.find()
@@ -17,7 +17,7 @@ export const getExams = async (req, res) => {
     }
 };
 
-// 📌 CREATE EXAM (Admin)
+// CREATE EXAM (Admin)
 export const createExam = async (req, res) => {
     try {
         const { courseId, thoiGianKiemTra, phong, hinhThucKiemTra, thoiGianLamBai } = req.body;
@@ -43,7 +43,7 @@ export const createExam = async (req, res) => {
 };
 
 
-// 📌 UPDATE Exam
+// UPDATE Exam
 export const updateExam = async (req, res) => {
     try {
         const updated = await Exam.findByIdAndUpdate(
@@ -58,7 +58,7 @@ export const updateExam = async (req, res) => {
     }
 };
 
-// 📌 DELETE Exam
+// DELETE Exam
 export const deleteExam = async (req, res) => {
     try {
         await Exam.findByIdAndDelete(req.params.id);
@@ -73,7 +73,7 @@ export const deleteExam = async (req, res) => {
 // PUBLIC APIs
 // ============================
 
-// 📌 GET LIST LỚP CHÍNH có lịch thi
+// GET LIST LỚP CHÍNH có lịch thi
 export const getExamLopOptions = async (req, res) => {
     try {
         const examCourseIds = await Exam.distinct("courseId");
@@ -88,7 +88,7 @@ export const getExamLopOptions = async (req, res) => {
     }
 };
 
-// 📌 GET PUBLIC EXAMS theo lớp chính + ngày
+// GET PUBLIC EXAMS theo lớp chính + ngày
 export const getPublicExams = async (req, res) => {
     try {
         const { maLopChinh, tuNgay, denNgay } = req.query;
@@ -122,7 +122,7 @@ export const getPublicExams = async (req, res) => {
             }
         }
 
-        // ⭐ MUST POPULATE để hiển thị tên môn học FE
+        // MUST POPULATE để hiển thị tên môn học FE
         const exams = await Exam.find(query)
             .populate("courseId", "tenMonHoc maLopHocPhan maLopChinh")
             .sort({ thoiGianKiemTra: 1 });

@@ -96,7 +96,6 @@ export const updateNews = async (req, res) => {
         // Đảm bảo logic tạo slug giống như trong model (hoặc dùng thư viện slugify)
         updatePayload.slug = req.body.tieuDe.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
     }
-    // ... (logic cập nhật slug) ...
 
     const updatedNews = await News.findByIdAndUpdate(
       req.params.id,
@@ -117,9 +116,6 @@ export const deleteNews = async (req, res) => {
     if (!news) {
         return res.status(404).json({ message: 'Không tìm thấy tin tức để xóa.' });
     }
-    
-    // [Cần thêm]: Logic xóa file ảnh khỏi thư mục 'uploads/' nếu có
-    
     res.status(200).json({ message: 'Tin tức đã được xóa thành công.' });
   } catch (err) {
     res.status(500).json({ message: 'Lỗi khi xóa tin tức', error: err.message });

@@ -5,7 +5,7 @@ const NewsSchema = new mongoose.Schema(
   {
     imageUrl: { 
       type: String,
-      default: '', // Có thể đặt mặc định là một URL ảnh placeholder
+      default: '', 
     },
     tieuDe: {
       type: String,
@@ -20,13 +20,12 @@ const NewsSchema = new mongoose.Schema(
       type: String,
       default: 'Admin',
     },
-    // Thêm trường slug để dùng cho URL thân thiện (ví dụ: /news/tieu-de-tin-tuc-abc)
     slug: {
       type: String,
       unique: true,
     },
   },
-  { timestamps: true } // Tự động thêm createdAt và updatedAt
+  { timestamps: true }
 );
 
 // Middleware để tạo slug trước khi lưu

@@ -20,7 +20,7 @@ const CourseSchema = new mongoose.Schema(
     maLopHocPhan: { type: String, required: true, unique: true },
     maLopChinh: { type: String, required: true },
 
-    phongHoc: { type: String, required: true },   // ⭐ THÊM MỚI
+    phongHoc: { type: String, required: true },   
 
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
